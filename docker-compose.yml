@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: postgres:12.6-alpine
+    container_name: db
+    ports:
+      - "5000:5432"
+    environment:
+      POSTGRES_DB: wslearn
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      PGDATA: /var/lib/postgresql/data/pgdata
+      volumes:
+        /var/lib/postgresql/data
+    restart: on-failure
+
+  rest:
+    image: bolgovid/wslearn:learnportal
+    ports:
+      - "8000:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/wslearn
+    depends_on:
+      - db
+    command: java -jar /app.jar
+    restart: on-failure
