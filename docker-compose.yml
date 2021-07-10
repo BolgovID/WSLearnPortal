@@ -15,7 +15,7 @@ services:
     restart: on-failure
 
   rest:
-    image: bolgovid/wslearn:learnportal
+    image: bolgovid/wslearn:learnportal-1
     ports:
       - "8000:8081"
     environment:
