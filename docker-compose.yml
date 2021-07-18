@@ -14,8 +14,9 @@ services:
         /var/lib/postgresql/data
     restart: on-failure
 
-  rest:
+  service:
     image: bolgovid/wslearn:learnportal-1
+    container_name: service
     ports:
       - "8000:8081"
     environment:
@@ -23,4 +24,17 @@ services:
     depends_on:
       - db
     command: java -jar /app.jar
+    restart: on-failure
+
+  ui:
+    image: bolgovid/wslearn:ui
+    container_name: ui
+    volumes:
+      - .:/usr/app/x
+      - /usr/app/node_modules
+    ports:
+      - "8090:8080"
+    depends_on:
+      - service
+    command: npm run serve
     restart: on-failure

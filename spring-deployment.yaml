@@ -1,0 +1,107 @@
+# Config Map
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: springapp-configmap
+data:
+  # Configuration values can be set as key-value properties
+  username: postgres
+  password: root
+---
+
+# Replication Controller for springapp
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: spring-controller
+spec:
+  replicas: 1
+  selector:
+    app: wslearn
+  template:
+    metadata:
+      labels:
+        app: wslearn
+    spec:
+      containers:
+        - image: bolgovid/wslearn
+          name: wslearn
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_DB_HOSTNAME
+              value: mongo
+            - name: POSTGRES_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: springapp-configmap
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: springapp-configmap
+                  key: password
+---
+# Node Port Service For SpringApp
+apiVersion: v1
+kind: Service
+metadata:
+  name: wslearn
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: wslearn
+---
+# Mongo RC with host path Volume
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: postgres-controller
+spec:
+  replicas: 1
+  selector:
+    app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - image: postgres
+          name: postgres
+          env:
+            - name: POSTGRES_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: springapp-configmap
+                  key: username
+            - name: POSTGRES_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: springapp-configmap
+                  key: password
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: postgres-persistent-storage
+              mountPath: /data/db
+      volumes:
+        - name: postgres-persistent-storage
+          hostPath:
+            path: /tmp/dbbackup
+---
+# Mongo Node Port RC
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  type: ClusterIP
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app: postgres
