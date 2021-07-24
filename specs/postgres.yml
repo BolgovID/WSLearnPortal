@@ -1,3 +1,4 @@
+#Config map
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -7,6 +8,7 @@ data:
   postgres_user: postgres
   postgres_password: root
 ---
+#Permanent storage, where we store out common data that can be in save after terminate docker container
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -18,11 +20,13 @@ spec:
     requests:
       storage: 32Gi
 ---
+#Postgres deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
 spec:
+  replicas: 1
   template:
     metadata:
       labels:
@@ -56,8 +60,9 @@ spec:
               mountPath: /var/lib/postgresql/data
   selector:
     matchLabels:
-      app: wslearn
+      app: postgres
 ---
+#Service for postgres
 apiVersion: v1
 kind: Service
 metadata:
@@ -68,3 +73,4 @@ spec:
     - port: 5432
   selector:
     app: postgres
+---
