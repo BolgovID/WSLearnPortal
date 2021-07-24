@@ -4,8 +4,8 @@ metadata:
   name: postgres-config
   namespace: default
 data:
-  postgres_user: admin
-  postgres_password: c1oudc0w
+  postgres_user: postgres
+  postgres_password: root
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
