@@ -18,7 +18,7 @@ spec:
         - name: wslearn
           image: bolgovid/wslearn
           ports:
-            - containerPort: 8000
+            - containerPort: 8080
 
 ---
 #Service for wslearn
@@ -32,7 +32,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8000
+      targetPort: 8080
 
 ## Node Port Service For SpringApp
 #apiVersion: v1
