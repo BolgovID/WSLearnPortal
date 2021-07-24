@@ -33,3 +33,16 @@ spec:
   selector:
     matchLabels:
       app: wslearn
+---
+#Service for postgres
+apiVersion: v1
+kind: Service
+metadata:
+  name: wslearn
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    app: wslearn
+---
