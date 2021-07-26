@@ -71,7 +71,6 @@ spec:
                 configMapKeyRef:
                   name: postgres-conf
                   key: name
-
           ports:
             - containerPort: 5432
               name: postgres
