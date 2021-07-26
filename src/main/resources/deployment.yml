@@ -1,9 +1,9 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: springboot-postgres-k8s
+  name: wslearn-back
   labels:
-    name: springboot-postgres-k8s
+    name: wslearn-back
 spec:
   ports:
     - nodePort: 30163
@@ -11,26 +11,26 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app: springboot-postgres-k8s
+    app: wslearn-back
   type: NodePort
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: springboot-postgres-k8s
+  name: wslearn-back
 spec:
   selector:
     matchLabels:
-      app: springboot-postgres-k8s
+      app: wslearn-back
   replicas: 3
   template:
     metadata:
       labels:
-        app: springboot-postgres-k8s
+        app: wslearn-back
     spec:
       containers:
-        - name: springboot-postgres-k8s
+        - name: wslearn-back
           image: bolgovid/wslearn:latest
           ports:
             - containerPort: 8080
