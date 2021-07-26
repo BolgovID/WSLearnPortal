@@ -3,8 +3,6 @@ services:
   db:
     image: postgres:12.6-alpine
     container_name: db
-    ports:
-      - "5000:5432"
     environment:
       POSTGRES_DB: wslearn
       POSTGRES_USER: postgres
@@ -15,7 +13,7 @@ services:
     restart: on-failure
 
   service:
-    image: bolgovid/wslearn:learnportal-1
+    image: bolgovid/wslearn
     container_name: service
     ports:
       - "8000:8081"
@@ -26,15 +24,15 @@ services:
     command: java -jar /app.jar
     restart: on-failure
 
-  ui:
-    image: bolgovid/wslearn:ui
-    container_name: ui
-    volumes:
-      - .:/usr/app/x
-      - /usr/app/node_modules
-    ports:
-      - "8090:8080"
-    depends_on:
-      - service
-    command: npm run serve
-    restart: on-failure
+#  ui:
+#    image: bolgovid/wslearn:ui
+#    container_name: ui
+#    volumes:
+#      - .:/usr/app/x
+#      - /usr/app/node_modules
+#    ports:
+#      - "8090:8080"
+#    depends_on:
+#      - service
+#    command: npm run serve
+#    restart: on-failure

@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: dev
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL82Dialect
+        show_sql: true
+  mustache:
+    expose-request-attributes: true
+flyway:
+  locations: classpath:db/migration
+  password: ${spring.datasource.password}
+  schemas: public
+  url: ${spring.datasource.url}
+  user: ${spring.datasource.username}
+server:
+  port: 8081
