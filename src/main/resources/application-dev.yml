@@ -4,3 +4,5 @@ spring:
     password: root
     url: jdbc:postgresql://localhost:5432/wslearn
     username: postgres
+server:
+  port: 8081
