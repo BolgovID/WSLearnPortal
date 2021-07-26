@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: wslearn-back
-          image: bolgovid/wslearn:latest
+          image: bolgovid/wslearn
           ports:
             - containerPort: 8080
           env:   # Setting Environment all Variables
