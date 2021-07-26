@@ -18,15 +18,16 @@ spec:
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: postgres-pv
+  name: postgres-pv-volume
   labels:
     type: local
+    app: postgres
 spec:
   storageClassName: manual
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   hostPath:
     path: "/mnt/data"
 ---
@@ -54,7 +55,6 @@ metadata:
   labels:
     app: postgres
     tier: database
-
 spec:
   selector: # mysql Pod Should contain same labels
     matchLabels:
