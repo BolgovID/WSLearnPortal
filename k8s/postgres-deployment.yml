@@ -59,7 +59,7 @@ spec:
     storage: 1Gi
   storageClassName: standard
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteOnce
   gcePersistentDisk:
     pdName: postgres-pv
     fsType: ext4
@@ -71,7 +71,7 @@ metadata:
   name: postgres-pv-claim
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
