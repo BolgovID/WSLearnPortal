@@ -16,7 +16,7 @@ spec:
   clusterIP: None
 
 ---
-# Define a 'Persistent Volume Claim'(PVC) for Postgress Storage, dynamically provisioned by cluster
+# Define a 'Persistent Volume Claim'(PVC) for Postgres Storage, dynamically provisioned by cluster
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
