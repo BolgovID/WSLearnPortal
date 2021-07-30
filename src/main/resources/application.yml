@@ -1,4 +1,6 @@
 spring:
+  cache:
+    type: redis
   profiles:
     active: dev
   jpa:
@@ -17,4 +19,3 @@ flyway:
   schemas: public
   url: ${spring.datasource.url}
   user: ${spring.datasource.username}
-
