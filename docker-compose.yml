@@ -12,17 +12,30 @@ services:
         /var/lib/postgresql/data
     restart: on-failure
 
-  service:
+  cache:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+
+  backend:
     image: bolgovid/wslearn
     container_name: service
     ports:
       - "8000:8081"
     environment:
+      SPRING_REDIS_HOST: cache
+      SPRING_REDIS_PORT: 6379
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/wslearn
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
     depends_on:
       - db
     command: java -jar /app.jar
     restart: on-failure
+
 
 #  ui:
 #    image: bolgovid/wslearn:ui
